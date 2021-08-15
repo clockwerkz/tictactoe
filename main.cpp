@@ -2,16 +2,18 @@
 
 using namespace std;
 const int WIN_COMBINATIONS = 8;
-const int DIMENSION = 3;
+const char X = 'x';
+const char O = 'o';
 
-void printBoard(int board[3][3]);
-bool isValidMove(int board[3][3], int row, int col);
+
+void printBoard(int (&board)[3][3]);
+bool isValidMove(int (&board)[3][3], int row, int col);
+bool isWinner(int(&winConditions)[WIN_COMBINATIONS][3][2], int(&board)[3][3], int row, int col);
 
 int main() {
 	
-	int board[DIMENSION][DIMENSION] = { {'o','.','x'}, {'o','x','.'}, {'x','.','.'} };
-	printBoard(board);
-	int winConditions[WIN_COMBINATIONS][DIMENSION][2] = { 
+	int board[3][3] = { {'.','.','.'}, {'.','.','.'}, {'.','.','.'} };
+	int winConditions[WIN_COMBINATIONS][3][2] = { 
 		{ {0,0 }, { 1,0 }, { 2,0 } }, 
 		{ {0,1 }, { 1,1 }, { 2,1 } }, 
 		{ {0,2 }, { 1,2 }, { 2,2 } }, 
@@ -21,43 +23,51 @@ int main() {
 		{ {0,0 }, { 1,1 }, { 2,2 } },
 		{ {0,2 }, { 1,1 }, { 2,0 } },
 	};
-
-	cout << "Enter the row and col coordinates for the next move: ";
+	int playerTurn = 0;
+	char currentTurn;
+	int round = 1;
 	int row, col;
-	cin >> row >> col;
-	char currentBoardPiece = board[row][col];
-	cout << "You entered row: " << row << ", col: " << col << " [debug] board value: " << currentBoardPiece << endl;
-	if (isValidMove(board, row, col)) {
-		board[row][col] = 'o';
+	cout << "GAME START\n----------\n";
+	while (round < 10) {
+		currentTurn = playerTurn % 2 == 0 ? X : O;
+		printBoard(board);
+		cout << "Player " << currentTurn << " it's your turn! Enter a row and a col: ";
+		cin >> row >> col;
+		if (isValidMove(board, row, col)) {
+			board[row][col] = currentTurn;
+			if (isWinner(winConditions, board, row, col)) {
+				printBoard(board);
+				cout <<"CONGRATS! " << currentTurn << " is the WINNER!\n";
+				break;
+			}
+			round++;
+			playerTurn++;
+		}
+		else {
+			cout << "Not a valid move. Please try again!" << endl;
+		}
 	}
-	else {
-		cout << "Invalid move: please enter valid row and col values.\n";
-	}
-	printBoard(board);
+}
 
-	/*
-	* Win Checking Code
+bool isWinner(int (&winConditions)[WIN_COMBINATIONS][3][2], int (&board)[3][3], int row, int col)
+{
 	for (int i = 0; i < WIN_COMBINATIONS; i++) {
-		char currentChoice = board[winConditions[i][0][0]][winConditions[i][0][1]];
 		bool isWinner = true;
-		for (int j = 0; j < DIMENSION; j++) {
+		char currentChoice = board[winConditions[i][0][0]][winConditions[i][0][1]];
+		for (int j = 0; j < 3; j++) {
 			int row = winConditions[i][j][0];
 			int col = winConditions[i][j][1];
 			char currentSelection = board[row][col];
-			cout << "Comparing: " << currentChoice << " with " << currentSelection << "." << endl;
 			if (isWinner && (currentChoice != currentSelection || currentSelection == '.')) {
 				isWinner = false;
 			}
 		}
-		if (isWinner) {
-			cout << "We have a winner!! The " << currentChoice << " player wins!" << endl;
-		}
+		if (isWinner) return true;
 	}
-	*/
+	return false;
 }
 
-
-bool isValidMove(int board[3][3], int row, int col) {
+bool isValidMove(int (&board)[3][3], int row, int col) {
 	if ((row >= 0 && row < 3) && (col >= 0 && col < 3)) {
 		char currentBoardSelection = board[row][col];
 		return currentBoardSelection == '.';
@@ -65,7 +75,7 @@ bool isValidMove(int board[3][3], int row, int col) {
 	return false;
 }
 
-void printBoard(int board[3][3]) {
+void printBoard(int (&board)[3][3]) {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			char currentSelection = board[i][j];

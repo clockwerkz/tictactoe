@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\git-repos\bookrepository\playground\TicTacToe\x64\Debug\TicTacToe.exe</FullPath>
+      <FullPath>D:\git-repos\tictactoe\x64\Debug\TicTacToe.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
