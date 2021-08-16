@@ -40,7 +40,6 @@ int main() {
 	else {
 		twoPlayerGame();
 	}
-	
 }
 
 void onePlayerGame()
@@ -57,37 +56,35 @@ void onePlayerGame()
 		if (currentTurn == X) {
 			cout << "Human, it's your turn! Enter a row and a col: ";
 			cin >> row >> col;
-			if (isValidMove(board, row, col)) {
-				board[row][col] = currentTurn;
-				if (isWinner(board, row, col)) {
-					printBoard(board);
-					cout << "CONGRATS! You have beaten the CPU and are the WINNER!\n";
-					break;
-				}
-				round++;
-				playerTurn++;
-			}
-			else {
+			if (!isValidMove(board, row, col)) {
 				cout << "Not a valid move. Please try again!" << endl;
+				continue;
 			}
+			board[row][col] = currentTurn;
+
 		}
 		else {
 			vector<array<int, 2>> availableMoves = findAvailableChoices(board);
 			int random_index = rand() % availableMoves.size();
 			row = availableMoves[random_index][0];
 			col = availableMoves[random_index][1];
-			board[row][col] = currentTurn;
-			if (isWinner(board, row, col)) {
-				printBoard(board);
-				cout << "SORRY! The CPU wins!\n";
-				break;
-			}
+			cout << "Computer chooses to place at row: " << row << ", col: " << col << endl;
+		}
+		board[row][col] = currentTurn;
+		if (isWinner(board, row, col)) {
+			printBoard(board);
+			string winMessage = currentTurn == X ? "You WIN! You beat the computer!" : "Sorry, you have LOST to the computer!";
+			cout << winMessage << endl;
+			break;
+		} else {
 			round++;
 			playerTurn++;
 		}
 	}
 	printBoard(board);
-	cout << "DRAW!\n";
+	if (round >= 10) {
+		cout << "DRAW!\n";
+	}
 }
 
 void twoPlayerGame() {
