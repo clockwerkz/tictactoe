@@ -1,6 +1,9 @@
 #include <iostream>
+#include <vector>
+#include <array>
 
 using namespace std;
+
 const int WIN_COMBINATIONS = 8;
 const char X = 'x';
 const char O = 'o';
@@ -47,6 +50,8 @@ int main() {
 			cout << "Not a valid move. Please try again!" << endl;
 		}
 	}
+	printBoard(board);
+	cout << "DRAW!\n";
 }
 
 bool isWinner(int (&winConditions)[WIN_COMBINATIONS][3][2], int (&board)[3][3], int row, int col)

@@ -2,3 +2,5 @@ D:\git-repos\bookrepository\playground\TicTacToe\x64\Debug\TicTacToe.exe
 D:\git-repos\bookrepository\playground\TicTacToe\x64\Debug\TicTacToe.pdb
 D:\git-repos\tictactoe\x64\Debug\TicTacToe.exe
 D:\git-repos\tictactoe\x64\Debug\TicTacToe.pdb
+E:\git-repos\tictactoe\x64\Debug\TicTacToe.exe
+E:\git-repos\tictactoe\x64\Debug\TicTacToe.pdb
